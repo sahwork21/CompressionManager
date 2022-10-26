@@ -6,6 +6,8 @@ import edu.ncsu.csc316.compression.dsa.DSAFactory;
 import edu.ncsu.csc316.compression.io.InputReader;
 import edu.ncsu.csc316.dsa.list.List;
 import edu.ncsu.csc316.dsa.map.Map;
+import edu.ncsu.csc316.dsa.map.Map.Entry;
+import edu.ncsu.csc316.dsa.sorter.Sorter;
 
 /**
  * CompressionManager is the part of the model that takes a Map from the InputReader and processes it.
@@ -30,6 +32,7 @@ public class CompressionManager {
         DSAFactory.setListType(null);
         DSAFactory.setComparisonSorterType(null);
         DSAFactory.setNonComparisonSorterType(null);
+        unprocessedMap = DSAFactory.getMap(null);
         unprocessedMap = InputReader.readFile(pathToInputFile);
     }
 
@@ -41,7 +44,40 @@ public class CompressionManager {
      * @return a Map of compressed text that
      */
     public Map<Integer, List<String>> getCompressed() {
-        unprocessedMap = DSAFactory.getMap(null);
+        //Go over each entry and each element in the List
+    	int order = 1;
+    	int lineNum = 1;
+    	Map<String, Integer> uniqueWords = DSAFactory.getMap(null);
+    	Map<Integer, List<String>> compressedMap = DSAFactory.getMap(null);
+    	
+    	for(Entry<Integer, List<String>> e : unprocessedMap.entrySet()) {
+    		List<String> compressedLine = DSAFactory.getIndexedList();
+    		List<String> currentLine = e.getValue();
+    		for(int i = 0; i < currentLine.size(); i++) {
+    			//If the word is unique increase the order count and add the word as a new entry
+    			
+    			if(uniqueWords.get(currentLine.get(i)) == null) {
+    				uniqueWords.put(currentLine.get(i), order);
+    				order++;
+        			compressedLine.addLast(currentLine.get(i));
+    			}
+    			else {
+    				String num = "" + uniqueWords.get(currentLine.get(i));
+    				
+    				compressedLine.addLast(num);
+    			}
+    				
+    		}
+    		
+    		//Now add the compressed Line to the map
+    		compressedMap.put(lineNum, compressedLine);
+    		lineNum++;
+    	}
+    	
+    	Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
+    	//Pull out all the entries and put them in an array
+    	Entry[] entries = new Entry<Integer, List<String>>[compressedMap.size()];
+    	
         
     }
 

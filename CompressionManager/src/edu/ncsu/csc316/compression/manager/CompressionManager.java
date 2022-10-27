@@ -38,12 +38,13 @@ public class CompressionManager {
 
     /**
      * Compresses the Map of unprocessed text by replacing repeats of words with an Integer.
-     * If a word is repeated it is replaced with the integer of the number where the first occurence was
+     * If a word is repeated it is replaced with the integer of the number where the first occurrence was
      * in the original text.
      * Maps are returned with Integer as the line number and List of Strings is the line.
-     * @return a Map of compressed text that
+     * @return a Map of compressed text that has number replacements for repeat words.
      */
-    public Map<Integer, List<String>> getCompressed() {
+    @SuppressWarnings("unchecked")
+	public Map<Integer, List<String>> getCompressed() {
         //Go over each entry and each element in the List
     	int order = 1;
     	int lineNum = 1;
@@ -75,13 +76,74 @@ public class CompressionManager {
     	}
     	
     	Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
-    	//Pull out all the entries and put them in an array
-    	Entry[] entries = new Entry<Integer, List<String>>[compressedMap.size()];
-    	
-        
+    	//Pull out all the entries and put them in an array to sort
+    	Entry<Integer, List<String>>[] entries = (Entry<Integer, List<String>>[])(new Object[compressedMap.size()]);
+    	int i = 0;
+    	for(Entry<Integer, List<String>> e : compressedMap.entrySet()) {
+    		entries[i] = e;
+    		i++;
+    	}
+    	sorter.sort(entries);
+    	//Now add back to front to help the heuristic maps that add at the front
+    	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
+        for(int j = i - 1; j >= 0; j--) {
+        	retMap.put(entries[j].getKey(), entries[j].getValue());
+        }
+        return retMap;
     }
-
-    public Map<Integer, List<String>> getDecompressed() {
-        // TODO Complete this method
+    
+    /**
+     * Decompresses the unprocessedMap by replacing numbers with their associated unique words.
+     * Unique Strings are placed into a Map of Integers as the keys and Strings as the values.
+     * Whenever an Integer is encountered the associated String value will replace the Integer in 
+     * the decompressedMap.
+     * @return a Map of decompressed text with no number replacements
+     */
+    @SuppressWarnings("unchecked")
+	public Map<Integer, List<String>> getDecompressed() {
+        //Go over each entry in the unprocessedMap
+    	int order = 1;
+    	int lineNum = 1;
+    	//Keys are integers as a String
+    	Map<String, String> uniqueWords = DSAFactory.getMap(null);
+    	Map<Integer, List<String>> decompressedMap = DSAFactory.getMap(null);
+    	
+    	for(Entry<Integer, List<String>> e : unprocessedMap.entrySet()) {
+    		List<String> decompressedLine = DSAFactory.getIndexedList();
+    		List<String> currentLine = e.getValue();
+    		for(int i = 0; i < currentLine.size(); i++) {
+    			//If the String is an Integer then replace it with its associated String
+    			if(uniqueWords.get(currentLine.get(i)) == null) {
+    				uniqueWords.put("" + order, currentLine.get(i));
+    				order++;
+    				decompressedLine.addLast(currentLine.get(i));
+    			}
+    			else {
+    				//Otherwise a number has been found
+    				decompressedLine.addLast(uniqueWords.get(currentLine.get(i)));
+    			}
+    		}
+    		
+    		//Then put the line onto the decompressedMap
+    		decompressedMap.put(lineNum, currentLine);
+    		lineNum++;
+    	}
+    	
+    	//Then sort the Map since we don't know if Map orders itself
+    	Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
+    	//Pull out all the entries and put them in an array to sort
+    	Entry<Integer, List<String>>[] entries = (Entry<Integer, List<String>>[])(new Object[decompressedMap.size()]);
+    	int i = 0;
+    	for(Entry<Integer, List<String>> e : decompressedMap.entrySet()) {
+    		entries[i] = e;
+    		i++;
+    	}
+    	sorter.sort(entries);
+    	//Now add back to front to help the heuristic maps that add at the front
+    	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
+        for(int j = i - 1; j >= 0; j--) {
+        	retMap.put(entries[j].getKey(), entries[j].getValue());
+        }
+        return retMap;
     }
 }

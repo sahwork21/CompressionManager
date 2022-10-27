@@ -57,11 +57,13 @@ public class ReportManager {
         	buffer.append("Line ");
         	buffer.append(line);
         	buffer.append(": ");
-        	for(int i = 0; i < l.size(); i++) {
+        	for(int i = 0; i < l.size() - 1; i++) {
         		
         		buffer.append(l.get(i));
         		buffer.append(" ");
         	}
+        	//Cut out those unnecessary spaces
+        	buffer.append(l.get(l.size() - 1));
         	
         	buffer.append("\n");
         	line++;

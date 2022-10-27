@@ -2,7 +2,9 @@ package edu.ncsu.csc316.compression.manager;
 
 import java.io.FileNotFoundException;
 
+import edu.ncsu.csc316.compression.dsa.Algorithm;
 import edu.ncsu.csc316.compression.dsa.DSAFactory;
+import edu.ncsu.csc316.compression.dsa.DataStructure;
 import edu.ncsu.csc316.compression.io.InputReader;
 import edu.ncsu.csc316.dsa.list.List;
 import edu.ncsu.csc316.dsa.map.Map;
@@ -28,10 +30,10 @@ public class CompressionManager {
 	 * @throws FileNotFoundException occurs if the path does not exist
 	 */
     public CompressionManager(String pathToInputFile) throws FileNotFoundException {
-        DSAFactory.setMapType(null);
-        DSAFactory.setListType(null);
-        DSAFactory.setComparisonSorterType(null);
-        DSAFactory.setNonComparisonSorterType(null);
+        DSAFactory.setMapType(DataStructure.SEARCHTABLE);
+        DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
+        DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
+        DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
         unprocessedMap = DSAFactory.getMap(null);
         unprocessedMap = InputReader.readFile(pathToInputFile);
     }
@@ -77,7 +79,7 @@ public class CompressionManager {
     	
     	Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
     	//Pull out all the entries and put them in an array to sort
-    	Entry<Integer, List<String>>[] entries = (Entry<Integer, List<String>>[])(new Object[compressedMap.size()]);
+    	Entry<Integer, List<String>>[] entries = new Entry[compressedMap.size()];
     	int i = 0;
     	for(Entry<Integer, List<String>> e : compressedMap.entrySet()) {
     		entries[i] = e;

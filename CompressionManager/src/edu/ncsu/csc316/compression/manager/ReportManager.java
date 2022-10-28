@@ -85,19 +85,23 @@ public class ReportManager {
         decompressed = compressionManager.getDecompressed();
         //Use a StringBuffer to cut down on appends
         StringBuffer buffer = new StringBuffer();
-        buffer.append("Compressed Output {\n");
+        buffer.append("Decompressed Output {\n");
         int line = 1;
         for(List<String> l : decompressed.values()) {
         	//Now print out each line with an indent
         	buffer.append(INDENT);
-        	buffer.append("Line: ");
-        	buffer.append(++line);
-        	for(int i = 0; i < l.size(); i++) {
+        	buffer.append("Line ");
+        	buffer.append(line);
+        	buffer.append(": ");
+        	for(int i = 0; i < l.size() - 1; i++) {
         		
         		buffer.append(l.get(i));
         		buffer.append(" ");
         	}
+        	//Cut out those unnecessary spaces
+        	buffer.append(l.get(l.size() - 1));
         	buffer.append("\n");
+        	line++;
         }
         buffer.append("}");
         

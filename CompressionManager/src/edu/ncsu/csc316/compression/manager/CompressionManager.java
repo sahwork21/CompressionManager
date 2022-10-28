@@ -30,7 +30,7 @@ public class CompressionManager {
 	 * @throws FileNotFoundException occurs if the path does not exist
 	 */
     public CompressionManager(String pathToInputFile) throws FileNotFoundException {
-        DSAFactory.setMapType(DataStructure.SEARCHTABLE);
+        DSAFactory.setMapType(DataStructure.UNORDEREDLINKEDMAP);
         DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
         DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
         DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
@@ -73,7 +73,7 @@ public class CompressionManager {
     		}
     		
     		//Now add the compressed Line to the map
-    		compressedMap.put(lineNum, compressedLine);
+    		compressedMap.put(e.getKey(), compressedLine);
     		lineNum++;
     	}
     	
@@ -115,7 +115,8 @@ public class CompressionManager {
     		List<String> currentLine = e.getValue();
     		for(int i = 0; i < currentLine.size(); i++) {
     			//If the String is an Integer then replace it with its associated String
-    			if(uniqueWords.get(currentLine.get(i)) == null) {
+    			//Must use regex to check that the currentWord is in fact a number to add
+    			if(currentLine.get(i).contains("[0-9]+") && uniqueWords.get(currentLine.get(i)) == null) {
     				uniqueWords.put("" + order, currentLine.get(i));
     				order++;
     				decompressedLine.addLast(currentLine.get(i));
@@ -134,14 +135,14 @@ public class CompressionManager {
     	//Then sort the Map since we don't know if Map orders itself
     	Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
     	//Pull out all the entries and put them in an array to sort
-    	Entry<Integer, List<String>>[] entries = (Entry<Integer, List<String>>[])(new Object[decompressedMap.size()]);
+    	Entry<Integer, List<String>>[] entries = new Entry[decompressedMap.size()];
     	int i = 0;
     	for(Entry<Integer, List<String>> e : decompressedMap.entrySet()) {
     		entries[i] = e;
     		i++;
     	}
     	sorter.sort(entries);
-    	//Now add back to front to help the heuristic maps that add at the front
+    	//Now add the last element first to help the heuristic maps that add at the front
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
         for(int j = i - 1; j >= 0; j--) {
         	retMap.put(entries[j].getKey(), entries[j].getValue());

@@ -1,7 +1,6 @@
 package edu.ncsu.csc316.compression.manager;
 
 import java.io.FileNotFoundException;
-
 import edu.ncsu.csc316.compression.dsa.Algorithm;
 import edu.ncsu.csc316.compression.dsa.DSAFactory;
 import edu.ncsu.csc316.compression.dsa.DataStructure;
@@ -15,6 +14,7 @@ import edu.ncsu.csc316.dsa.sorter.Sorter;
  * CompressionManager is the part of the model that takes a Map from the InputReader and processes it.
  * The CompressionManager will use the DSAFactory to test an assortment of Map, List, and sorting implementations.
  * CompressionManager is used by ReportManager to be the encapsulated compressor and decompressor.
+ * Warnings are suppressed to allow the Sorter to sort an Array of Entry objects
  * @author Sean Hinton (sahinto2)
  *
  */
@@ -29,33 +29,18 @@ public class CompressionManager {
 	 * @param pathToInputFile the file path to the File to be read
 	 * @throws FileNotFoundException occurs if the path does not exist
 	 */
-    @SuppressWarnings("unchecked")
+    
 	public CompressionManager(String pathToInputFile) throws FileNotFoundException {
         DSAFactory.setMapType(DataStructure.SKIPLIST);
-        DSAFactory.setListType(DataStructure.SINGLYLINKEDLIST);
+        DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
         DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
         DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
-        unprocessedMap = DSAFactory.getMap(null);
+       
         unprocessedMap = InputReader.readFile(pathToInputFile);
         
-        //We may need to sort the Map since it could come in reverse order if it doesn't self sort
-        Entry<Integer, List<String>>[] entries = new Entry[unprocessedMap.size()];
-        Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
-        int i = 0;
-        for(Entry<Integer, List<String>> e : unprocessedMap.entrySet()) {
-    		entries[i] = e;
-    		i++;
-    	}
-        
-        sorter.sort(entries);
-        Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
-        for(int j = i - 1; j >= 0; j--) {
-        	retMap.put(entries[j].getKey(), entries[j].getValue());
-        }
-        unprocessedMap = retMap;
         
     }
-
+	
     /**
      * Compresses the Map of unprocessed text by replacing repeats of words with an Integer.
      * If a word is repeated it is replaced with the integer of the number where the first occurrence was
@@ -74,13 +59,14 @@ public class CompressionManager {
     	for(Entry<Integer, List<String>> e : unprocessedMap.entrySet()) {
     		List<String> compressedLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
+    		
     		for(int i = 0; i < currentLine.size(); i++) {
     			//If the word is unique increase the order count and add the word as a new entry
-    			
-    			if(uniqueWords.get(currentLine.get(i)) == null) {
-    				uniqueWords.put(currentLine.get(i), order);
+    			String currentWord = currentLine.get(i);
+    			if(uniqueWords.get(currentWord) == null) {
+    				uniqueWords.put(currentWord, order);
     				order++;
-        			compressedLine.addLast(currentLine.get(i));
+        			compressedLine.addLast(currentWord);
     			}
     			else {
     				String num = "" + uniqueWords.get(currentLine.get(i));
@@ -167,4 +153,30 @@ public class CompressionManager {
         }
         return retMap;
     }
+    
+    /**
+     * Private helper that does sorting
+     * @param map the map to be sorted
+     * @return the map now in sorted order even if it is supposed to be unordered
+     */
+    @SuppressWarnings("unchecked")
+	private Map<Integer, List<String>> sort(Map<Integer, List<String>> map) {
+    	//We may need to sort the Map since it could come in reverse order if it doesn't self sort
+        Entry<Integer, List<String>>[] entries = new Entry[map.size()];
+        Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
+        int i = 0;
+        for(Entry<Integer, List<String>> e : unprocessedMap.entrySet()) {
+    		entries[i] = e;
+    		i++;
+    	}
+        
+        sorter.sort(entries);
+        Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
+        for(int j = i - 1; j >= 0; j--) {
+        	retMap.put(entries[j].getKey(), entries[j].getValue());
+        }
+        return retMap;
+    }
+    
+   
 }

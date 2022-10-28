@@ -31,8 +31,8 @@ public class ReportManager {
      * @throws FileNotFoundException if the specified file path doesn't exist
      */
     public ReportManager(String pathToInputFile) throws FileNotFoundException {
-    	DSAFactory.setMapType(DataStructure.UNORDEREDLINKEDMAP);
-    	DSAFactory.setListType(DataStructure.SINGLYLINKEDLIST);
+    	DSAFactory.setMapType(DataStructure.SKIPLIST);
+    	DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
     	DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
     	DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
     	

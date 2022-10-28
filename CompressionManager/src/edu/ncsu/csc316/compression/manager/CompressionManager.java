@@ -29,13 +29,31 @@ public class CompressionManager {
 	 * @param pathToInputFile the file path to the File to be read
 	 * @throws FileNotFoundException occurs if the path does not exist
 	 */
-    public CompressionManager(String pathToInputFile) throws FileNotFoundException {
-        DSAFactory.setMapType(DataStructure.UNORDEREDLINKEDMAP);
-        DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
+    @SuppressWarnings("unchecked")
+	public CompressionManager(String pathToInputFile) throws FileNotFoundException {
+        DSAFactory.setMapType(DataStructure.SKIPLIST);
+        DSAFactory.setListType(DataStructure.SINGLYLINKEDLIST);
         DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
         DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
         unprocessedMap = DSAFactory.getMap(null);
         unprocessedMap = InputReader.readFile(pathToInputFile);
+        
+        //We may need to sort the Map since it could come in reverse order if it doesn't self sort
+        Entry<Integer, List<String>>[] entries = new Entry[unprocessedMap.size()];
+        Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
+        int i = 0;
+        for(Entry<Integer, List<String>> e : unprocessedMap.entrySet()) {
+    		entries[i] = e;
+    		i++;
+    	}
+        
+        sorter.sort(entries);
+        Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
+        for(int j = i - 1; j >= 0; j--) {
+        	retMap.put(entries[j].getKey(), entries[j].getValue());
+        }
+        unprocessedMap = retMap;
+        
     }
 
     /**
@@ -49,7 +67,7 @@ public class CompressionManager {
 	public Map<Integer, List<String>> getCompressed() {
         //Go over each entry and each element in the List
     	int order = 1;
-    	int lineNum = 1;
+    
     	Map<String, Integer> uniqueWords = DSAFactory.getMap(null);
     	Map<Integer, List<String>> compressedMap = DSAFactory.getMap(null);
     	
@@ -74,7 +92,7 @@ public class CompressionManager {
     		
     		//Now add the compressed Line to the map
     		compressedMap.put(e.getKey(), compressedLine);
-    		lineNum++;
+    		
     	}
     	
     	Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
@@ -116,7 +134,7 @@ public class CompressionManager {
     		for(int i = 0; i < currentLine.size(); i++) {
     			//If the String is an Integer then replace it with its associated String
     			//Must use regex to check that the currentWord is in fact a number to add
-    			if(currentLine.get(i).contains("[0-9]+") && uniqueWords.get(currentLine.get(i)) == null) {
+    			if(uniqueWords.get(currentLine.get(i)) == null) {
     				uniqueWords.put("" + order, currentLine.get(i));
     				order++;
     				decompressedLine.addLast(currentLine.get(i));
@@ -128,7 +146,7 @@ public class CompressionManager {
     		}
     		
     		//Then put the line onto the decompressedMap
-    		decompressedMap.put(lineNum, currentLine);
+    		decompressedMap.put(lineNum, decompressedLine);
     		lineNum++;
     	}
     	

@@ -67,11 +67,11 @@ class ReportManagerTest {
 			fail("Could not read");
 		}
 		
-		assertEquals("Deompressed Output {\n"
+		assertEquals("Decompressed Output {\n"
 				+ INDENT + "Line 1: One fish Two fish Red fish Blue fish\n"
 				+ INDENT + "Line 2: Black fish Blue fish Old fish New fish\n"
 				+ INDENT + "Line 3: This one has a little car\n"
-				+ INDENT + "Line 4: This one has a litte star\n"
+				+ INDENT + "Line 4: This one has a little star\n"
 				+ INDENT + "Line 5: Say What a lot of fish there are\n"
 				+ "}", rm.decompress());
 		
@@ -84,7 +84,7 @@ class ReportManagerTest {
 			e.printStackTrace();
 			fail("Could not read");
 		}
-		assertEquals("Compressed Output {\n"
+		assertEquals("Decompressed Output {\n"
 				+ INDENT + "Line 1: This has only unique words\n"
 				+ INDENT + "Line 2: No repeats here\n"
 				+ INDENT + "Line 3: so no changes will be made\n"

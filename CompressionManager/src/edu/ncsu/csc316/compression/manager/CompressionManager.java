@@ -50,6 +50,15 @@ public class CompressionManager {
      */
     @SuppressWarnings("unchecked")
 	public Map<Integer, List<String>> getCompressed() {
+    	//Edge case needed when nothing was read
+    	//Need to make sure the lists contain nothing
+    	if(unprocessedMap.size() == 0 || unprocessedMap.get(unprocessedMap.size()).size() == 0) {
+    		return null;
+    	}
+    	
+    	
+    	//We need to sort the unprocessedMap first
+    	unprocessedMap = sort(unprocessedMap);
         //Go over each entry and each element in the List
     	int order = 1;
     
@@ -107,6 +116,14 @@ public class CompressionManager {
      */
     @SuppressWarnings("unchecked")
 	public Map<Integer, List<String>> getDecompressed() {
+    	//Edge case needed when nothing was read
+    	if(unprocessedMap.size() == 0 || unprocessedMap.get(unprocessedMap.size()).size() == 0) {
+    		return null;
+    	}
+    	
+    	
+    	//We need to sort the unprocessedMap first
+    	unprocessedMap = sort(unprocessedMap);
         //Go over each entry in the unprocessedMap
     	int order = 1;
     	int lineNum = 1;

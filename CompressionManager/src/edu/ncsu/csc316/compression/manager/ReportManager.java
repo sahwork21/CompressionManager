@@ -45,8 +45,13 @@ public class ReportManager {
      * @return a String of the compressed Map taken from Map to lines of Strings
      */
     public String compress() {
+    	
     	Map<Integer, List<String>> compressed = DSAFactory.getMap(null);
         compressed = compressionManager.getCompressed();
+        //Edge case check
+        if(compressed == null) {
+        	return "The provided input file has no text to decompress.";
+        }
         //Use a StringBuffer to cut down on appends
         StringBuffer buffer = new StringBuffer();
         buffer.append("Compressed Output {\n");
@@ -83,6 +88,10 @@ public class ReportManager {
     public String decompress() {
     	Map<Integer, List<String>> decompressed = DSAFactory.getMap(null);
         decompressed = compressionManager.getDecompressed();
+        //Edge case check
+        if(decompressed == null) {
+        	return "The provided input file has no text to decompress.";
+        }
         //Use a StringBuffer to cut down on appends
         StringBuffer buffer = new StringBuffer();
         buffer.append("Decompressed Output {\n");

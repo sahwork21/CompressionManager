@@ -21,6 +21,7 @@ class CompressionManagerTest {
 	 */
 	@Test
 	public void testGetCompressed() {
+		
 		CompressionManager cm = null;
 		try {
 			cm = new CompressionManager("input/decompressed.txt");

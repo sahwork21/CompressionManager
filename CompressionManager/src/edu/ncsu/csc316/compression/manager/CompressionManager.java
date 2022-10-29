@@ -58,15 +58,17 @@ public class CompressionManager {
     	
     	
     	//We need to sort the unprocessedMap first
-    	unprocessedMap = sort(unprocessedMap);
+    	Map<Integer, List<String>> unprocessedSortedMap = sort(unprocessedMap);
         //Go over each entry and each element in the List
     	int order = 1;
-    
+    	int lineNum = 1;
+    	//Algorithm will not use another Map.
+    	//Instead it will just set map values in the unprocessedSortedMap
     	Map<String, Integer> uniqueWords = DSAFactory.getMap(null);
-    	Map<Integer, List<String>> compressedMap = DSAFactory.getMap(null);
+    	Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
     	
-    	for(Entry<Integer, List<String>> e : unprocessedMap.entrySet()) {
-    		List<String> compressedLine = DSAFactory.getIndexedList();
+    	for(Entry<Integer, List<String>> e : unprocessedSortedMap.entrySet()) {
+    		
     		List<String> currentLine = e.getValue();
     		
     		for(int i = 0; i < currentLine.size(); i++) {
@@ -75,33 +77,30 @@ public class CompressionManager {
     			if(uniqueWords.get(currentWord) == null) {
     				uniqueWords.put(currentWord, order);
     				order++;
-        			compressedLine.addLast(currentWord);
+        			
     			}
     			else {
+    				//Otherwise reset the value on the line
     				String num = "" + uniqueWords.get(currentLine.get(i));
-    				
-    				compressedLine.addLast(num);
+    				currentLine.set(i, num);
+    			
     			}
     				
     		}
     		
-    		//Now add the compressed Line to the map
-    		compressedMap.put(e.getKey(), compressedLine);
-    		
+    		//Now add the compressed Line to the array to later get put into a Map
+    		entries[lineNum - 1] = e;
+    		lineNum++;
     	}
     	
-    	Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
-    	//Pull out all the entries and put them in an array to sort
-    	Entry<Integer, List<String>>[] entries = new Entry[compressedMap.size()];
-    	int i = 0;
-    	for(Entry<Integer, List<String>> e : compressedMap.entrySet()) {
-    		entries[i] = e;
-    		i++;
-    	}
-    	sorter.sort(entries);
+    	
+    	
+    	
+    	
+//    	sorter.sort(entries);
     	//Now add back to front to help the heuristic maps that add at the front
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
-        for(int j = i - 1; j >= 0; j--) {
+        for(int j = entries.length - 1; j >= 0; j--) {
         	retMap.put(entries[j].getKey(), entries[j].getValue());
         }
         return retMap;
@@ -123,49 +122,42 @@ public class CompressionManager {
     	
     	
     	//We need to sort the unprocessedMap first
-    	unprocessedMap = sort(unprocessedMap);
+    	Map<Integer, List<String>> unprocessedSortedMap = sort(unprocessedMap);
         //Go over each entry in the unprocessedMap
     	int order = 1;
     	int lineNum = 1;
     	//Keys are integers as a String
     	Map<String, String> uniqueWords = DSAFactory.getMap(null);
-    	Map<Integer, List<String>> decompressedMap = DSAFactory.getMap(null);
     	
-    	for(Entry<Integer, List<String>> e : unprocessedMap.entrySet()) {
-    		List<String> decompressedLine = DSAFactory.getIndexedList();
+    	//These entries are the processed lines
+    	Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
+    	for(Entry<Integer, List<String>> e : unprocessedSortedMap.entrySet()) {
+    		
     		List<String> currentLine = e.getValue();
     		for(int i = 0; i < currentLine.size(); i++) {
     			//If the String is an Integer then replace it with its associated String
-    			//Must use regex to check that the currentWord is in fact a number to add
-    			if(uniqueWords.get(currentLine.get(i)) == null) {
+    			String currentWord = currentLine.get(i);
+    			if(uniqueWords.get(currentWord) == null) {
     				uniqueWords.put("" + order, currentLine.get(i));
     				order++;
-    				decompressedLine.addLast(currentLine.get(i));
+    				
     			}
     			else {
-    				//Otherwise a number has been found
-    				decompressedLine.addLast(uniqueWords.get(currentLine.get(i)));
+    				//Otherwise a number has been found so just set the String with the associated value
+    				currentLine.set(i, uniqueWords.get(currentWord));
     			}
     		}
     		
     		//Then put the line onto the decompressedMap
-    		decompressedMap.put(lineNum, decompressedLine);
+    		entries[lineNum - 1] = e;
     		lineNum++;
     	}
     	
-    	//Then sort the Map since we don't know if Map orders itself
-    	Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
-    	//Pull out all the entries and put them in an array to sort
-    	Entry<Integer, List<String>>[] entries = new Entry[decompressedMap.size()];
-    	int i = 0;
-    	for(Entry<Integer, List<String>> e : decompressedMap.entrySet()) {
-    		entries[i] = e;
-    		i++;
-    	}
-    	sorter.sort(entries);
+    	
+    	
     	//Now add the last element first to help the heuristic maps that add at the front
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
-        for(int j = i - 1; j >= 0; j--) {
+        for(int j = entries.length - 1; j >= 0; j--) {
         	retMap.put(entries[j].getKey(), entries[j].getValue());
         }
         return retMap;

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -71,12 +72,8 @@ public class ReportManagerTest {
 		
 		assertEquals("The provided input file has no text to compress.", rm.compress());
 		
-		try {
-			rm = new ReportManager("input/large.txt");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		
 	}
 	
 	/**
@@ -137,7 +134,9 @@ public class ReportManagerTest {
 	
 	/**
 	 * Test on a large file
+	 * Don't run unless you want to wait a while
 	 */
+	@Ignore
 	@Test
 	public void testLarge() {
 		ReportManager rm = null;

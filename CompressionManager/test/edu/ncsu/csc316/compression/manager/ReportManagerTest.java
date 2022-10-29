@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,6 +38,23 @@ public class ReportManagerTest {
 				+ INDENT + "Line 5:Say What 12 lot of 2 there are\n"
 				+ "}", rm.compress());
 		
+		//Compress again and make sure everything works
+		assertEquals("Compressed Output {\n"
+				+ INDENT + "Line 1:One fish Two 2 Red 2 Blue 2\n"
+				+ INDENT + "Line 2:Black 2 5 2 Old 2 New 2\n"
+				+ INDENT + "Line 3:This one has a little car\n"
+				+ INDENT + "Line 4:9 10 11 12 13 star\n"
+				+ INDENT + "Line 5:Say What 12 lot of 2 there are\n"
+				+ "}", rm.compress());
+		
+		//Compress again and make sure everything works
+				assertEquals("Compressed Output {\n"
+						+ INDENT + "Line 1:One fish Two 2 Red 2 Blue 2\n"
+						+ INDENT + "Line 2:Black 2 5 2 Old 2 New 2\n"
+						+ INDENT + "Line 3:This one has a little car\n"
+						+ INDENT + "Line 4:9 10 11 12 13 star\n"
+						+ INDENT + "Line 5:Say What 12 lot of 2 there are\n"
+						+ "}", rm.compress());
 		
 		//Make sure no changes are made for a unique file
 		try {
@@ -97,7 +113,22 @@ public class ReportManagerTest {
 				+ INDENT + "Line 4:This one has a little star\n"
 				+ INDENT + "Line 5:Say What a lot of fish there are\n"
 				+ "}", rm.decompress());
+		//Decompress multiple times
+		assertEquals("Decompressed Output {\n"
+				+ INDENT + "Line 1:One fish Two fish Red fish Blue fish\n"
+				+ INDENT + "Line 2:Black fish Blue fish Old fish New fish\n"
+				+ INDENT + "Line 3:This one has a little car\n"
+				+ INDENT + "Line 4:This one has a little star\n"
+				+ INDENT + "Line 5:Say What a lot of fish there are\n"
+				+ "}", rm.decompress());
 		
+		assertEquals("Decompressed Output {\n"
+				+ INDENT + "Line 1:One fish Two fish Red fish Blue fish\n"
+				+ INDENT + "Line 2:Black fish Blue fish Old fish New fish\n"
+				+ INDENT + "Line 3:This one has a little car\n"
+				+ INDENT + "Line 4:This one has a little star\n"
+				+ INDENT + "Line 5:Say What a lot of fish there are\n"
+				+ "}", rm.decompress());
 		
 		//Make sure no changes are made for a unique file
 		try {
@@ -132,23 +163,23 @@ public class ReportManagerTest {
 		assertEquals("The provided input file has no text to decompress.", rm.decompress());
 	}
 	
-	/**
-	 * Test on a large file
-	 * Don't run unless you want to wait a while
-	 */
-	@Ignore
-	@Test
-	public void testLarge() {
-		ReportManager rm = null;
-		try {
-			rm = new ReportManager("input/large.txt");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		assertNotNull(rm.compress());
-		assertNotNull(rm.decompress());
-	}
+//	/**
+//	 * Test on a large file
+//	 * Don't run unless you want to wait a while
+//	 */
+//	@Ignore
+//	@Test
+//	public void testLarge() {
+//		ReportManager rm = null;
+//		try {
+//			rm = new ReportManager("input/large.txt");
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		assertNotNull(rm.compress());
+//		assertNotNull(rm.decompress());
+//	}
 
 }

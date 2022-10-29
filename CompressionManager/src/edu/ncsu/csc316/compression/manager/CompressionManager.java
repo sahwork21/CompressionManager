@@ -22,6 +22,7 @@ public class CompressionManager {
 
 	/**The underlying map of raw text straight from a file*/
 	private Map<Integer, List<String>> unprocessedMap;
+	
 	/**
 	 * Constructor for the CompressionManager.
 	 * Takes in a file path and creates a file of the unprocessed text.
@@ -68,7 +69,7 @@ public class CompressionManager {
     	Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
     	
     	for(Entry<Integer, List<String>> e : unprocessedSortedMap.entrySet()) {
-    		
+    		List<String> originalLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
     		
     		for(int i = 0; i < currentLine.size(); i++) {
@@ -85,11 +86,15 @@ public class CompressionManager {
     				currentLine.set(i, num);
     			
     			}
+    			//Need to make a hard copy of the original Line so we can compress again
+    			originalLine.addLast(currentWord);
     				
     		}
     		
     		//Now add the compressed Line to the array to later get put into a Map
     		entries[lineNum - 1] = e;
+    		//Replace the Map entry value 
+    		unprocessedMap.put(lineNum, originalLine);
     		lineNum++;
     	}
     	
@@ -103,6 +108,8 @@ public class CompressionManager {
         for(int j = entries.length - 1; j >= 0; j--) {
         	retMap.put(entries[j].getKey(), entries[j].getValue());
         }
+        
+        //Change
         return retMap;
     }
     
@@ -133,6 +140,7 @@ public class CompressionManager {
     	Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
     	for(Entry<Integer, List<String>> e : unprocessedSortedMap.entrySet()) {
     		
+    		List<String> originalLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
     		for(int i = 0; i < currentLine.size(); i++) {
     			//If the String is an Integer then replace it with its associated String
@@ -146,10 +154,13 @@ public class CompressionManager {
     				//Otherwise a number has been found so just set the String with the associated value
     				currentLine.set(i, uniqueWords.get(currentWord));
     			}
+    			originalLine.addLast(currentWord);
     		}
     		
     		//Then put the line onto the decompressedMap
     		entries[lineNum - 1] = e;
+    		//Replace the Map entry value 
+    		unprocessedMap.put(lineNum, originalLine);
     		lineNum++;
     	}
     	
@@ -160,6 +171,9 @@ public class CompressionManager {
         for(int j = entries.length - 1; j >= 0; j--) {
         	retMap.put(entries[j].getKey(), entries[j].getValue());
         }
+        
+        //Reset the unprocessedMap at the end so we can process again
+        
         return retMap;
     }
     
@@ -174,7 +188,7 @@ public class CompressionManager {
         Entry<Integer, List<String>>[] entries = new Entry[map.size()];
         Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
         int i = 0;
-        for(Entry<Integer, List<String>> e : unprocessedMap.entrySet()) {
+        for(Entry<Integer, List<String>> e : map.entrySet()) {
     		entries[i] = e;
     		i++;
     	}

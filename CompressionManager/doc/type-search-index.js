@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"edu.ncsu.csc316.compression.manager","l":"CompressionManager"},{"p":"edu.ncsu.csc316.compression.ui","l":"CompressionManagerUI"},{"p":"edu.ncsu.csc316.compression.manager","l":"ReportManager"}]

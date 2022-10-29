@@ -147,8 +147,8 @@ public class ReportManagerTest {
 			e.printStackTrace();
 		}
 		
-		rm.compress();
-		rm.decompress();
+		assertNotNull(rm.compress());
+		assertNotNull(rm.decompress());
 	}
 
 }

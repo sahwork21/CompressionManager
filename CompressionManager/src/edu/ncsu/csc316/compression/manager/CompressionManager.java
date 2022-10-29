@@ -106,7 +106,7 @@ public class CompressionManager {
     	//Now add back to front to help the heuristic maps that add at the front
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
         for(int j = entries.length - 1; j >= 0; j--) {
-        	retMap.put(entries[j].getKey(), entries[j].getValue());
+        	retMap.put(j + 1, entries[j].getValue());
         }
         
         //Change
@@ -169,7 +169,7 @@ public class CompressionManager {
     	//Now add the last element first to help the heuristic maps that add at the front
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
         for(int j = entries.length - 1; j >= 0; j--) {
-        	retMap.put(entries[j].getKey(), entries[j].getValue());
+        	retMap.put(j + 1, entries[j].getValue());
         }
         
         //Reset the unprocessedMap at the end so we can process again

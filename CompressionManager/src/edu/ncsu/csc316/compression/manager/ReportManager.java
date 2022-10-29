@@ -50,7 +50,7 @@ public class ReportManager {
         compressed = compressionManager.getCompressed();
         //Edge case check
         if(compressed == null) {
-        	return "The provided input file has no text to decompress.";
+        	return "The provided input file has no text to compress.";
         }
         //Use a StringBuffer to cut down on appends
         StringBuffer buffer = new StringBuffer();
@@ -61,7 +61,7 @@ public class ReportManager {
         	buffer.append(INDENT);
         	buffer.append("Line ");
         	buffer.append(line);
-        	buffer.append(": ");
+        	buffer.append(":  ");
         	for(int i = 0; i < l.size() - 1; i++) {
         		
         		buffer.append(l.get(i));
@@ -101,7 +101,7 @@ public class ReportManager {
         	buffer.append(INDENT);
         	buffer.append("Line ");
         	buffer.append(line);
-        	buffer.append(": ");
+        	buffer.append(":  ");
         	for(int i = 0; i < l.size() - 1; i++) {
         		
         		buffer.append(l.get(i));

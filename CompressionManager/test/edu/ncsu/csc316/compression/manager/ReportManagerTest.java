@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * @author Sean Hinton (sahinto2)
  *
  */
-class ReportManagerTest {
+public class ReportManagerTest {
 	/**Constant for the indents when returning the compressed or decompressed Maps*/
     private static final String INDENT = "   ";
 			
@@ -70,6 +70,13 @@ class ReportManagerTest {
 		}
 		
 		assertEquals("The provided input file has no text to compress.", rm.compress());
+		
+		try {
+			rm = new ReportManager("input/large.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -126,6 +133,23 @@ class ReportManagerTest {
 		}
 		
 		assertEquals("The provided input file has no text to decompress.", rm.decompress());
+	}
+	
+	/**
+	 * Test on a large file
+	 */
+	@Test
+	public void testLarge() {
+		ReportManager rm = null;
+		try {
+			rm = new ReportManager("input/large.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		rm.compress();
+		rm.decompress();
 	}
 
 }

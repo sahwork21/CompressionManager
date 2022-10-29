@@ -14,7 +14,7 @@ import edu.ncsu.csc316.dsa.map.Map;
  * @author Sean Hinton (sahinto2)
  *
  */
-class CompressionManagerTest {
+public class CompressionManagerTest {
 
 	/**
 	 * Tests the getCompressedMethod
@@ -36,6 +36,28 @@ class CompressionManagerTest {
 		assertEquals("fish", map.get(1).get(1));
 		assertEquals("Two", map.get(1).get(2));
 		assertEquals("2", map.get(1).get(3));
+	}
+	
+	/**
+	 * Tests the getDecompressedMethod
+	 */
+	@Test
+	public void testGetDecompress() {
+		CompressionManager cm = null;
+		try {
+			cm = new CompressionManager("input/compressed.txt");
+		} catch (FileNotFoundException e) {
+			fail("No path found");
+			e.printStackTrace();
+		}
+		
+		Map<Integer, List<String>> map = cm.getDecompressed();
+		
+		
+		assertEquals("One", map.get(1).get(0));
+		assertEquals("fish", map.get(1).get(1));
+		assertEquals("Two", map.get(1).get(2));
+		assertEquals("fish", map.get(1).get(3));
 	}
 
 }

@@ -31,11 +31,11 @@ class ReportManagerTest {
 		}
 		
 		assertEquals("Compressed Output {\n"
-				+ INDENT + "Line 1:  One fish Two 2 Red 2 Blue 2\n"
-				+ INDENT + "Line 2:  Black 2 5 2 Old 2 New 2\n"
-				+ INDENT + "Line 3:  This one has a little car\n"
-				+ INDENT + "Line 4:  9 10 11 12 13 star\n"
-				+ INDENT + "Line 5:  Say What 12 lot of 2 there are\n"
+				+ INDENT + "Line 1: One fish Two 2 Red 2 Blue 2\n"
+				+ INDENT + "Line 2: Black 2 5 2 Old 2 New 2\n"
+				+ INDENT + "Line 3: This one has a little car\n"
+				+ INDENT + "Line 4: 9 10 11 12 13 star\n"
+				+ INDENT + "Line 5: Say What 12 lot of 2 there are\n"
 				+ "}", rm.compress());
 		
 		
@@ -48,9 +48,9 @@ class ReportManagerTest {
 			fail("Could not read");
 		}
 		assertEquals("Compressed Output {\n"
-				+ INDENT + "Line 1:  This has only unique words\n"
-				+ INDENT + "Line 2:  No repeats here\n"
-				+ INDENT + "Line 3:  so no changes will be made\n"
+				+ INDENT + "Line 1: This has only unique words\n"
+				+ INDENT + "Line 2: No repeats here\n"
+				+ INDENT + "Line 3: so no changes will be made\n"
 				+ "}", rm.compress());
 		
 		try {
@@ -87,11 +87,11 @@ class ReportManagerTest {
 		}
 		
 		assertEquals("Decompressed Output {\n"
-				+ INDENT + "Line 1:  One fish Two fish Red fish Blue fish\n"
-				+ INDENT + "Line 2:  Black fish Blue fish Old fish New fish\n"
-				+ INDENT + "Line 3:  This one has a little car\n"
-				+ INDENT + "Line 4:  This one has a little star\n"
-				+ INDENT + "Line 5:  Say What a lot of fish there are\n"
+				+ INDENT + "Line 1: One fish Two fish Red fish Blue fish\n"
+				+ INDENT + "Line 2: Black fish Blue fish Old fish New fish\n"
+				+ INDENT + "Line 3: This one has a little car\n"
+				+ INDENT + "Line 4: This one has a little star\n"
+				+ INDENT + "Line 5: Say What a lot of fish there are\n"
 				+ "}", rm.decompress());
 		
 		
@@ -104,9 +104,9 @@ class ReportManagerTest {
 			fail("Could not read");
 		}
 		assertEquals("Decompressed Output {\n"
-				+ INDENT + "Line 1:  This has only unique words\n"
-				+ INDENT + "Line 2:  No repeats here\n"
-				+ INDENT + "Line 3:  so no changes will be made\n"
+				+ INDENT + "Line 1: This has only unique words\n"
+				+ INDENT + "Line 2: No repeats here\n"
+				+ INDENT + "Line 3: so no changes will be made\n"
 				+ "}", rm.decompress());
 		
 		try {

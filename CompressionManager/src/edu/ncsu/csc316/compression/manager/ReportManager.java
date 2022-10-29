@@ -61,7 +61,7 @@ public class ReportManager {
         	buffer.append(INDENT);
         	buffer.append("Line ");
         	buffer.append(line);
-        	buffer.append(":  ");
+        	buffer.append(": ");
         	for(int i = 0; i < l.size() - 1; i++) {
         		
         		buffer.append(l.get(i));
@@ -101,7 +101,7 @@ public class ReportManager {
         	buffer.append(INDENT);
         	buffer.append("Line ");
         	buffer.append(line);
-        	buffer.append(":  ");
+        	buffer.append(": ");
         	for(int i = 0; i < l.size() - 1; i++) {
         		
         		buffer.append(l.get(i));

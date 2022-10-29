@@ -84,7 +84,7 @@ public class CompressionManager {
     			else {
     				//Otherwise reset the value on the line
     				
-    				currentLine.set(i, "" + uniqueWords.get(currentWord));
+    				currentLine.set(i, "" + mapVal);
     			
     			}
     			//Need to make a hard copy of the original Line so we can compress again
@@ -155,7 +155,7 @@ public class CompressionManager {
     			}
     			else {
     				//Otherwise a number has been found so just set the String with the associated value
-    				currentLine.set(i, uniqueWords.get(currentWord));
+    				currentLine.set(i, mapVal);
     			}
     			originalLine.addLast(currentWord);
     		}

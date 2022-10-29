@@ -75,15 +75,16 @@ public class CompressionManager {
     		for(int i = 0; i < currentLine.size(); i++) {
     			//If the word is unique increase the order count and add the word as a new entry
     			String currentWord = currentLine.get(i);
-    			if(uniqueWords.get(currentWord) == null) {
+    			Integer mapVal = uniqueWords.get(currentWord);
+    			if(mapVal == null) {
     				uniqueWords.put(currentWord, order);
     				order++;
         			
     			}
     			else {
     				//Otherwise reset the value on the line
-    				String num = "" + uniqueWords.get(currentLine.get(i));
-    				currentLine.set(i, num);
+    				
+    				currentLine.set(i, "" + uniqueWords.get(currentWord));
     			
     			}
     			//Need to make a hard copy of the original Line so we can compress again
@@ -142,11 +143,13 @@ public class CompressionManager {
     		
     		List<String> originalLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
+    		
     		for(int i = 0; i < currentLine.size(); i++) {
     			//If the String is an Integer then replace it with its associated String
     			String currentWord = currentLine.get(i);
-    			if(uniqueWords.get(currentWord) == null) {
-    				uniqueWords.put("" + order, currentLine.get(i));
+    			String mapVal = uniqueWords.get(currentWord);
+    			if(mapVal == null) {
+    				uniqueWords.put("" + order, currentWord);
     				order++;
     				
     			}

@@ -38,37 +38,38 @@ public class CompressionManagerUI {
 		}
 		
 		//Ask to decompress or compress
-		System.out.println("Compress or Decompress the file?");
+		
 		String command = "";
 		if(reportManager != null) {
+			System.out.println("Compress or Decompress the file? Type \"quit\" to quit.");
 			command = input.nextLine();
 		}
 		//Repeat until told to quit
-		while(!"quit".equals(command) && reportManager != null) {
+		while(!"quit".equals(command.toLowerCase()) && reportManager != null) {
 			//compress
-			if("compress".equals(command)) {
+			if("compress".equals(command.toLowerCase())) {
 				System.out.println(reportManager.compress());
-				System.out.println("\nCompress or Decompress the file?");
+				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
 				command = input.nextLine();
 			}
 			
 			//decompress
-			else if("decompress".equals(command)) {
+			else if("decompress".equals(command.toLowerCase())) {
 				System.out.println(reportManager.decompress());
-				System.out.println("\nCompress or Decompress the file?");
+				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
 				command = input.nextLine();
 			}
 			
 			//Tell the user what needs to be input if they didn't do it right
 			else {
 				System.out.println("usage: \"compress\" or \"decompress\"");
-				System.out.println("\nCompress or Decompress the file?");
+				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
 				command = input.nextLine();
 			}
 			
 		}
 		
-		StringBuilder b = new StringBuilder();
+		
 		input.close();
 		
 	}

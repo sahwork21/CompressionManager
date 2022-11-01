@@ -48,8 +48,14 @@ public class CompressionManagerUI {
 		while(!"quit".equals(command.toLowerCase()) && reportManager != null) {
 			//compress
 			if("compress".equals(command.toLowerCase())) {
+				//long start = System.currentTimeMillis();
 				System.out.println(reportManager.compress());
+				//long end = System.currentTimeMillis();
+				//System.out.println(end - start);
+				//Used in part 3 for testing runt times
+				
 				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
+				
 				command = input.nextLine();
 			}
 			

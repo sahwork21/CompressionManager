@@ -36,28 +36,20 @@ public class CompressionManagerTest {
 		assertEquals("fish", map.get(1).get(1));
 		assertEquals("Two", map.get(1).get(2));
 		assertEquals("2", map.get(1).get(3));
-	}
-	
-	/**
-	 * Tests the getDecompressedMethod
-	 */
-	@Test
-	public void testGetDecompress() {
-		CompressionManager cm = null;
-		try {
-			cm = new CompressionManager("input/compressed.txt");
-		} catch (FileNotFoundException e) {
-			fail("No path found");
-			e.printStackTrace();
-		}
 		
-		Map<Integer, List<String>> map = cm.getDecompressed();
-		
-		
-		assertEquals("One", map.get(1).get(0));
-		assertEquals("fish", map.get(1).get(1));
-		assertEquals("Two", map.get(1).get(2));
-		assertEquals("fish", map.get(1).get(3));
+		//Check that a lot of stuff was compressed correctly
+		assertEquals("This", map.get(3).get(0));
+		assertEquals("9", map.get(4).get(0));
+		assertEquals("one", map.get(3).get(1));
+		assertEquals("10", map.get(4).get(1));
+		assertEquals("has", map.get(3).get(2));
+		assertEquals("11", map.get(4).get(2));
+		assertEquals("a", map.get(3).get(3));
+		assertEquals("12", map.get(4).get(3));
+		assertEquals("little", map.get(3).get(4));
+		assertEquals("13", map.get(4).get(4));
+		assertEquals("car", map.get(3).get(5));
+		assertEquals("star", map.get(4).get(5));
 		
 		try {
 			cm = new CompressionManager("input/sample.txt");
@@ -93,7 +85,43 @@ public class CompressionManagerTest {
 		assertEquals("3", map.get(2).get(9));
 		assertEquals("1", map.get(2).get(10));
 		assertEquals("4", map.get(2).get(11));
+	}
+	
+	
+	/**
+	 * Tests the getDecompressedMethod
+	 */
+	@Test
+	public void testGetDecompress() {
+		CompressionManager cm = null;
+		try {
+			cm = new CompressionManager("input/compressed.txt");
+		} catch (FileNotFoundException e) {
+			fail("No path found");
+			e.printStackTrace();
+		}
 		
+		Map<Integer, List<String>> map = cm.getDecompressed();
+		
+		assertEquals(5, map.size());
+		assertEquals("One", map.get(1).get(0));
+		assertEquals("fish", map.get(1).get(1));
+		assertEquals("Two", map.get(1).get(2));
+		assertEquals("fish", map.get(1).get(3));
+		
+		//Check that a lot of stuff was decompressed correctly
+		assertEquals("This", map.get(3).get(0));
+		assertEquals("This", map.get(4).get(0));
+		assertEquals("one", map.get(3).get(1));
+		assertEquals("one", map.get(4).get(1));
+		assertEquals("has", map.get(3).get(2));
+		assertEquals("has", map.get(4).get(2));
+		assertEquals("a", map.get(3).get(3));
+		assertEquals("a", map.get(4).get(3));
+		assertEquals("little", map.get(3).get(4));
+		assertEquals("little", map.get(4).get(4));
+		assertEquals("car", map.get(3).get(5));
+		assertEquals("star", map.get(4).get(5));
 	}
 
 }

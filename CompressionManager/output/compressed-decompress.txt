@@ -1,0 +1,7 @@
+Decompressed Output {
+   Line 1:One fish Two fish Red fish Blue fish
+   Line 2:Black fish blue fish Old fish New fish
+   Line 3:This one has a little car
+   Line 4:This one has a little star
+   Line 5:Say What a lot of fish there are
+}

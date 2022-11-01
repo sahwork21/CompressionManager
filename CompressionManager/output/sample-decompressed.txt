@@ -1,0 +1,7 @@
+Decompressed Output {
+   Line 1:the dog and the cat and the fox and the snake
+   Line 2:and the fish and the horse and the dog and the cat
+   Line 3:jumped over the lazy brown dog for the red fox cannot
+   Line 4:see that the cat was asleep and lazy for the snake
+   Line 5:I am not the fox
+}

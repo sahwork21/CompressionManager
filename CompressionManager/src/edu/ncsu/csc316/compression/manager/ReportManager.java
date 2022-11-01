@@ -53,7 +53,7 @@ public class ReportManager {
         	return "The provided input file has no text to compress.";
         }
         //Use a StringBuffer to cut down on appends
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("Compressed Output {\n");
         int line = 1;
         for(List<String> l : compressed.values()) {
@@ -93,7 +93,7 @@ public class ReportManager {
         	return "The provided input file has no text to decompress.";
         }
         //Use a StringBuffer to cut down on appends
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("Decompressed Output {\n");
         int line = 1;
         for(List<String> l : decompressed.values()) {

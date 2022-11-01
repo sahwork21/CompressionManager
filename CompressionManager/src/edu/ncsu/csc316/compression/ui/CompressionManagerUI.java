@@ -68,7 +68,7 @@ public class CompressionManagerUI {
 			
 		}
 		
-		
+		StringBuilder b = new StringBuilder();
 		input.close();
 		
 	}

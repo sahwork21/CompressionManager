@@ -49,8 +49,7 @@ public class CompressionManager {
      * Maps are returned with Integer as the line number and List of Strings is the line.
      * @return a Map of compressed text that has number replacements for repeat words.
      */
-    @SuppressWarnings("unchecked")
-	public Map<Integer, List<String>> getCompressed() {
+    public Map<Integer, List<String>> getCompressed() {
     	//Edge case needed when nothing was read
     	//Need to make sure the lists contain nothing
     	if(unprocessedMap.size() == 0) {
@@ -66,8 +65,8 @@ public class CompressionManager {
     	//Algorithm will not use another Map.
     	//Instead it will just set map values in the unprocessedSortedMap
     	Map<String, Integer> uniqueWords = DSAFactory.getMap(null);
-    	Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
-    	
+    	//Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
+    	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
     	for(Entry<Integer, List<String>> e : unprocessedSortedMap.entrySet()) {
     		List<String> originalLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
@@ -93,7 +92,7 @@ public class CompressionManager {
     		}
     		
     		//Now add the compressed Line to the array to later get put into a Map
-    		entries[lineNum - 1] = e;
+    		retMap.put(lineNum, currentLine);
     		//Replace the Map entry value 
     		unprocessedMap.put(lineNum, originalLine);
     		lineNum++;
@@ -105,10 +104,8 @@ public class CompressionManager {
     	
 //    	sorter.sort(entries);
     	//Now add back to front to help the heuristic maps that add at the front
-    	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
-        for(int j = entries.length - 1; j >= 0; j--) {
-        	retMap.put(j + 1, entries[j].getValue());
-        }
+    	
+        
         
         //Change
         return retMap;
@@ -121,8 +118,7 @@ public class CompressionManager {
      * the decompressedMap.
      * @return a Map of decompressed text with no number replacements
      */
-    @SuppressWarnings("unchecked")
-	public Map<Integer, List<String>> getDecompressed() {
+    public Map<Integer, List<String>> getDecompressed() {
     	//Edge case needed when nothing was read
     	if(unprocessedMap.size() == 0) {
     		return null;
@@ -136,9 +132,9 @@ public class CompressionManager {
     	int lineNum = 1;
     	//Keys are integers as a String
     	Map<String, String> uniqueWords = DSAFactory.getMap(null);
-    	
+    	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
     	//These entries are the processed lines
-    	Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
+    	//Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
     	for(Entry<Integer, List<String>> e : unprocessedSortedMap.entrySet()) {
     		
     		List<String> originalLine = DSAFactory.getIndexedList();
@@ -160,20 +156,21 @@ public class CompressionManager {
     			originalLine.addLast(currentWord);
     		}
     		
-    		//Then put the line onto the decompressedMap
-    		entries[lineNum - 1] = e;
+    		
     		//Replace the Map entry value 
+    		retMap.put(lineNum, currentLine);
     		unprocessedMap.put(lineNum, originalLine);
+    		
     		lineNum++;
     	}
     	
     	
     	
     	//Now add the last element first to help the heuristic maps that add at the front
-    	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
-        for(int j = entries.length - 1; j >= 0; j--) {
-        	retMap.put(j + 1, entries[j].getValue());
-        }
+    	
+//        for(int j = entries.length - 1; j >= 0; j--) {
+//        	retMap.put(j + 1, entries[j].getValue());
+//        }
         
         //Reset the unprocessedMap at the end so we can process again
         

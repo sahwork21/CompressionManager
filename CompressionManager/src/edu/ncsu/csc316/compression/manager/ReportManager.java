@@ -1,6 +1,7 @@
 package edu.ncsu.csc316.compression.manager;
 
 import java.io.FileNotFoundException;
+import java.util.Iterator;
 
 import edu.ncsu.csc316.compression.dsa.Algorithm;
 import edu.ncsu.csc316.compression.dsa.DSAFactory;
@@ -59,16 +60,19 @@ public class ReportManager {
         for(List<String> l : compressed.values()) {
         	//Now print out each line with an indent
 //        	buffer.append(INDENT);
-        	buffer.append(INDENT + "Line " + line + ":");
+        	
 //        	buffer.append(line);
 //        	buffer.append(":");
-        	for(int i = 0; i < l.size() - 1; i++) {
+        	Iterator<String> it = l.iterator();
+        	buffer.append(INDENT + "Line " + line + ":" + it.next());
+        	
+        	while(it.hasNext()) {
         		
-        		buffer.append(l.get(i) + " ");
+        		buffer.append(" " + it.next());
 //        		buffer.append(" ");
         	}
         	//Cut out those unnecessary spaces
-        	buffer.append(l.get(l.size() - 1) + "\n");
+        	buffer.append("\n");
         	
 //        	buffer.append("\n");
         	line++;
@@ -100,15 +104,19 @@ public class ReportManager {
         	//Now print out each line with an indent
 //        	buffer.append(INDENT);
 //        	buffer.append("Line ");
-        	buffer.append(INDENT + "Line " + line + ":");
+        	
 //        	buffer.append(":");
-        	for(int i = 0; i < l.size() - 1; i++) {
+        	Iterator<String> it = l.iterator();
+        	buffer.append(INDENT + "Line " + line + ":" + it.next());
+       
+        	
+        	while(it.hasNext()) {
         		
-        		buffer.append(l.get(i) + " ");
+        		buffer.append(" " + it.next());
 //        		buffer.append(" ");
         	}
         	//Cut out those unnecessary spaces
-        	buffer.append(l.get(l.size() - 1) + "\n");
+        	buffer.append("\n");
 //        	buffer.append("\n");
         	line++;
         }

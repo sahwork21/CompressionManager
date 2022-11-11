@@ -1,6 +1,8 @@
 package edu.ncsu.csc316.compression.manager;
 
 import java.io.FileNotFoundException;
+import java.util.Iterator;
+
 import edu.ncsu.csc316.compression.dsa.Algorithm;
 import edu.ncsu.csc316.compression.dsa.DSAFactory;
 import edu.ncsu.csc316.compression.dsa.DataStructure;
@@ -71,10 +73,10 @@ public class CompressionManager {
     	for(Entry<Integer, List<String>> e : unprocessedSortedMap) {
     		List<String> newLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
-    		
-    		for(int i = 0; i < currentLine.size(); i++) {
+    		Iterator<String> it = currentLine.iterator();
+    		while(it.hasNext()) {
     			//If the word is unique increase the order count and add the word as a new entry
-    			String currentWord = currentLine.get(i);
+    			String currentWord = it.next();
     			
     			Integer mapVal = uniqueWords.get(currentWord);
     			if(mapVal == null) {
@@ -141,10 +143,10 @@ public class CompressionManager {
     		
     		List<String> newLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
-    		
-    		for(int i = 0; i < currentLine.size(); i++) {
+    		Iterator<String> it = currentLine.iterator();
+    		while(it.hasNext()) {
     			//If the String is an Integer then replace it with its associated String
-    			String currentWord = currentLine.get(i);
+    			String currentWord = it.next();
     			String mapVal = uniqueWords.get(currentWord);
     			if(mapVal == null) {
     				uniqueWords.put(new StringBuilder("" + order).toString(), currentWord);
@@ -197,6 +199,7 @@ public class CompressionManager {
     		//i++;
     	}
        
+        
         
         sorter.sort(entries);
 //        Map<Integer, List<String>> retMap = DSAFactory.getMap(null);

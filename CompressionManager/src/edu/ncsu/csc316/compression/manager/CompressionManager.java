@@ -69,7 +69,7 @@ public class CompressionManager {
     	//Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
     	for(Entry<Integer, List<String>> e : unprocessedSortedMap) {
-    		List<String> originalLine = DSAFactory.getIndexedList();
+    		List<String> newLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
     		
     		for(int i = 0; i < currentLine.size(); i++) {
@@ -79,23 +79,23 @@ public class CompressionManager {
     			if(mapVal == null) {
     				uniqueWords.put(currentWord, order);
     				order++;
-        			
+        			newLine.addLast(currentWord);
     			}
     			else {
     				//Otherwise reset the value on the line
-    				
-    				currentLine.set(i, new StringBuilder("" + mapVal).toString());
+    				newLine.addLast(new StringBuilder("" + mapVal).toString());
+    				//currentLine.set(i, new StringBuilder("" + mapVal).toString());
     			
     			}
     			//Need to make a hard copy of the original Line so we can compress again
-    			originalLine.addLast(currentWord);
+    			
     				
     		}
     		
     		//Now add the compressed Line to the array to later get put into a Map
-    		retMap.put(lineNum, currentLine);
+    		retMap.put(lineNum, newLine);
     		//Replace the Map entry value 
-    		unprocessedMap.put(lineNum, originalLine);
+    		
     		lineNum++;
     	}
     	
@@ -138,7 +138,7 @@ public class CompressionManager {
     	//Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
     	for(Entry<Integer, List<String>> e : unprocessedSortedMap) {
     		
-    		List<String> originalLine = DSAFactory.getIndexedList();
+    		List<String> newLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
     		
     		for(int i = 0; i < currentLine.size(); i++) {
@@ -148,19 +148,21 @@ public class CompressionManager {
     			if(mapVal == null) {
     				uniqueWords.put(new StringBuilder("" + order).toString(), currentWord);
     				order++;
+    				newLine.addLast(currentWord);
     				
     			}
     			else {
     				//Otherwise a number has been found so just set the String with the associated value
-    				currentLine.set(i, mapVal);
+    				
+    				newLine.addLast(mapVal);
     			}
-    			originalLine.addLast(currentWord);
+    			
     		}
     		
     		
     		//Replace the Map entry value 
-    		retMap.put(lineNum, currentLine);
-    		unprocessedMap.put(lineNum, originalLine);
+    		retMap.put(lineNum, newLine);
+    		//unprocessedMap.put(lineNum, originalLine);
     		
     		lineNum++;
     	}

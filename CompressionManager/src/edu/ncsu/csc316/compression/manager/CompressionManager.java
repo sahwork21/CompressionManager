@@ -84,7 +84,7 @@ public class CompressionManager {
     			else {
     				//Otherwise reset the value on the line
     				
-    				currentLine.set(i, "" + mapVal);
+    				currentLine.set(i, new StringBuilder("" + mapVal).toString());
     			
     			}
     			//Need to make a hard copy of the original Line so we can compress again
@@ -149,7 +149,7 @@ public class CompressionManager {
     			String currentWord = currentLine.get(i);
     			String mapVal = uniqueWords.get(currentWord);
     			if(mapVal == null) {
-    				uniqueWords.put("" + order, currentWord);
+    				uniqueWords.put(new StringBuilder("" + order).toString(), currentWord);
     				order++;
     				
     			}

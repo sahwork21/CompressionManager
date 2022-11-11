@@ -75,6 +75,7 @@ public class CompressionManager {
     		for(int i = 0; i < currentLine.size(); i++) {
     			//If the word is unique increase the order count and add the word as a new entry
     			String currentWord = currentLine.get(i);
+    			
     			Integer mapVal = uniqueWords.get(currentWord);
     			if(mapVal == null) {
     				uniqueWords.put(currentWord, order);
@@ -192,9 +193,10 @@ public class CompressionManager {
         Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
         int i = 0;
         for(Entry<Integer, List<String>> e : map.entrySet()) {
-    		entries[i] = e;
-    		i++;
+    		entries[i++] = e;
+    		//i++;
     	}
+       
         
         sorter.sort(entries);
 //        Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
@@ -204,6 +206,8 @@ public class CompressionManager {
         
         return entries;
     }
+    
+  
     
     
 //    @SuppressWarnings("unchecked")

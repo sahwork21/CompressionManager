@@ -58,23 +58,19 @@ public class ReportManager {
         buffer.append("Compressed Output {\n");
         int line = 1;
         for(List<String> l : compressed.values()) {
-        	//Now print out each line with an indent
-//        	buffer.append(INDENT);
-        	
-//        	buffer.append(line);
-//        	buffer.append(":");
+        	//Now print out each line with an indent       	
         	Iterator<String> it = l.iterator();
         	buffer.append(INDENT + "Line " + line + ":" + it.next());
         	
         	while(it.hasNext()) {
         		
         		buffer.append(" " + it.next());
-//        		buffer.append(" ");
+
         	}
         	//Cut out those unnecessary spaces
         	buffer.append("\n");
         	
-//        	buffer.append("\n");
+
         	line++;
         }
         buffer.append("}");
@@ -97,15 +93,12 @@ public class ReportManager {
         	return "The provided input file has no text to decompress.";
         }
         //Use a StringBuffer to cut down on appends
-        StringBuilder buffer = new StringBuilder();
-        buffer.append("Decompressed Output {\n");
+        StringBuilder buffer = new StringBuilder("Decompressed Output {\n");
+       
         int line = 1;
         for(List<String> l : decompressed.values()) {
         	//Now print out each line with an indent
-//        	buffer.append(INDENT);
-//        	buffer.append("Line ");
-        	
-//        	buffer.append(":");
+
         	Iterator<String> it = l.iterator();
         	buffer.append(INDENT + "Line " + line + ":" + it.next());
        
@@ -113,11 +106,11 @@ public class ReportManager {
         	while(it.hasNext()) {
         		
         		buffer.append(" " + it.next());
-//        		buffer.append(" ");
+
         	}
         	//Cut out those unnecessary spaces
         	buffer.append("\n");
-//        	buffer.append("\n");
+
         	line++;
         }
         buffer.append("}");

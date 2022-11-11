@@ -70,14 +70,7 @@ public class ReportManagerTest {
 				+ INDENT + "Line 3:so no changes will be made\n"
 				+ "}", rm.compress());
 		
-		try {
-			rm = new ReportManager("input/empty.txt");
-		} catch (FileNotFoundException e) {
-			fail("Could not read");
-			e.printStackTrace();
-		}
 		
-		assertEquals("The provided input file has no text to compress.", rm.compress());
 		
 		try {
 			rm = new ReportManager("input/many-empty-lines.txt");
@@ -144,14 +137,7 @@ public class ReportManagerTest {
 				+ INDENT + "Line 3:so no changes will be made\n"
 				+ "}", rm.decompress());
 		
-		try {
-			rm = new ReportManager("input/empty.txt");
-		} catch (FileNotFoundException e) {
-			fail("Could not read");
-			e.printStackTrace();
-		}
-		
-		assertEquals("The provided input file has no text to decompress.", rm.decompress());
+	
 		//Make sure the proper message is returned when the file is empty
 		try {
 			rm = new ReportManager("input/many-empty-lines.txt");

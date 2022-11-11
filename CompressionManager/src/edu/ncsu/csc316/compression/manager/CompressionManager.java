@@ -55,7 +55,7 @@ public class CompressionManager {
     public Map<Integer, List<String>> getCompressed() {
     	//Edge case needed when nothing was read
     	//Need to make sure the lists contain nothing
-    	if(unprocessedMap.size() == 0) {
+    	if(unprocessedMap.size() == 0 || unprocessedMap.get(1).size() == 0) {
     		return null;
     	}
     	
@@ -124,7 +124,7 @@ public class CompressionManager {
      */
     public Map<Integer, List<String>> getDecompressed() {
     	//Edge case needed when nothing was read
-    	if(unprocessedMap.size() == 0) {
+    	if(unprocessedMap.size() == 0 || unprocessedMap.get(1).size() == 0) {
     		return null;
     	}
     	

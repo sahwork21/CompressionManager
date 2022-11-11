@@ -47,8 +47,8 @@ public class ReportManager {
      */
     public String compress() {
     	
-    	Map<Integer, List<String>> compressed = DSAFactory.getMap(null);
-        compressed = compressionManager.getCompressed();
+    	Map<Integer, List<String>> compressed = compressionManager.getCompressed();
+       
         //Edge case check
         if(compressed == null) {
         	return "The provided input file has no text to compress.";
@@ -90,8 +90,8 @@ public class ReportManager {
      * @return a String of the decompressed Map taken from the Lists of Strings in the Map
      */
     public String decompress() {
-    	Map<Integer, List<String>> decompressed = DSAFactory.getMap(null);
-        decompressed = compressionManager.getDecompressed();
+    	Map<Integer, List<String>> decompressed = compressionManager.getDecompressed();
+       
         //Edge case check
         if(decompressed == null) {
         	return "The provided input file has no text to decompress.";

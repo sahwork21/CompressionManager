@@ -31,7 +31,7 @@ public class ReportManager {
      * @throws FileNotFoundException if the specified file path doesn't exist
      */
     public ReportManager(String pathToInputFile) throws FileNotFoundException {
-    	DSAFactory.setMapType(DataStructure.SKIPLIST);
+    	DSAFactory.setMapType(DataStructure.SEARCHTABLE);
     	DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
     	DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
     	DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
@@ -58,19 +58,19 @@ public class ReportManager {
         int line = 1;
         for(List<String> l : compressed.values()) {
         	//Now print out each line with an indent
-        	buffer.append(INDENT);
-        	buffer.append("Line ");
-        	buffer.append(line);
-        	buffer.append(":");
+//        	buffer.append(INDENT);
+        	buffer.append(INDENT + "Line " + line + ":");
+//        	buffer.append(line);
+//        	buffer.append(":");
         	for(int i = 0; i < l.size() - 1; i++) {
         		
-        		buffer.append(l.get(i));
-        		buffer.append(" ");
+        		buffer.append(l.get(i) + " ");
+//        		buffer.append(" ");
         	}
         	//Cut out those unnecessary spaces
-        	buffer.append(l.get(l.size() - 1));
+        	buffer.append(l.get(l.size() - 1) + "\n");
         	
-        	buffer.append("\n");
+//        	buffer.append("\n");
         	line++;
         }
         buffer.append("}");
@@ -98,18 +98,18 @@ public class ReportManager {
         int line = 1;
         for(List<String> l : decompressed.values()) {
         	//Now print out each line with an indent
-        	buffer.append(INDENT);
-        	buffer.append("Line ");
-        	buffer.append(line);
-        	buffer.append(":");
+//        	buffer.append(INDENT);
+//        	buffer.append("Line ");
+        	buffer.append(INDENT + "Line " + line + ":");
+//        	buffer.append(":");
         	for(int i = 0; i < l.size() - 1; i++) {
         		
-        		buffer.append(l.get(i));
-        		buffer.append(" ");
+        		buffer.append(l.get(i) + " ");
+//        		buffer.append(" ");
         	}
         	//Cut out those unnecessary spaces
-        	buffer.append(l.get(l.size() - 1));
-        	buffer.append("\n");
+        	buffer.append(l.get(l.size() - 1) + "\n");
+//        	buffer.append("\n");
         	line++;
         }
         buffer.append("}");

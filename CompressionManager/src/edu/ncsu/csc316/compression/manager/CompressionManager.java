@@ -33,7 +33,7 @@ public class CompressionManager {
 	 */
     
 	public CompressionManager(String pathToInputFile) throws FileNotFoundException {
-        DSAFactory.setMapType(DataStructure.SEARCHTABLE);
+        DSAFactory.setMapType(DataStructure.SKIPLIST);
         DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
         DSAFactory.setComparisonSorterType(Algorithm.QUICKSORT);
         DSAFactory.setNonComparisonSorterType(Algorithm.RADIX_SORT);
@@ -59,7 +59,7 @@ public class CompressionManager {
     	
     	
     	//We need to sort the unprocessedMap first
-    	Map<Integer, List<String>> unprocessedSortedMap = sort(unprocessedMap);
+    	Entry<Integer, List<String>>[] unprocessedSortedMap = sort(unprocessedMap);
         //Go over each entry and each element in the List
     	int order = 1;
     	int lineNum = 1;
@@ -68,7 +68,7 @@ public class CompressionManager {
     	Map<String, Integer> uniqueWords = DSAFactory.getMap(null);
     	//Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
-    	for(Entry<Integer, List<String>> e : unprocessedSortedMap.entrySet()) {
+    	for(Entry<Integer, List<String>> e : unprocessedSortedMap) {
     		List<String> originalLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
     		
@@ -127,7 +127,7 @@ public class CompressionManager {
     	
     	
     	//We need to sort the unprocessedMap first
-    	Map<Integer, List<String>> unprocessedSortedMap = sort(unprocessedMap);
+    	Entry<Integer, List<String>>[] unprocessedSortedMap = sort(unprocessedMap);
         //Go over each entry in the unprocessedMap
     	int order = 1;
     	int lineNum = 1;
@@ -136,7 +136,7 @@ public class CompressionManager {
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
     	//These entries are the processed lines
     	//Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
-    	for(Entry<Integer, List<String>> e : unprocessedSortedMap.entrySet()) {
+    	for(Entry<Integer, List<String>> e : unprocessedSortedMap) {
     		
     		List<String> originalLine = DSAFactory.getIndexedList();
     		List<String> currentLine = e.getValue();
@@ -184,7 +184,7 @@ public class CompressionManager {
      * @return the map now in sorted order even if it is supposed to be unordered
      */
     @SuppressWarnings("unchecked")
-	private Map<Integer, List<String>> sort(Map<Integer, List<String>> map) {
+	private Entry<Integer, List<String>>[] sort(Map<Integer, List<String>> map) {
     	//We may need to sort the Map since it could come in reverse order if it doesn't self sort
         Entry<Integer, List<String>>[] entries = new Entry[map.size()];
         Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
@@ -195,11 +195,12 @@ public class CompressionManager {
     	}
         
         sorter.sort(entries);
-        Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
-        for(int j = i - 1; j >= 0; j--) {
-        	retMap.put(j, entries[j].getValue());
-        }
-        return retMap;
+//        Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
+//        for(int j = i - 1; j >= 0; j--) {
+//        	retMap.put(j, entries[j].getValue());
+//        }
+        
+        return entries;
     }
     
     

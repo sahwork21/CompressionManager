@@ -5,7 +5,6 @@ import edu.ncsu.csc316.compression.dsa.Algorithm;
 import edu.ncsu.csc316.compression.dsa.DSAFactory;
 import edu.ncsu.csc316.compression.dsa.DataStructure;
 import edu.ncsu.csc316.compression.io.InputReader;
-import edu.ncsu.csc316.dsa.data.Identifiable;
 import edu.ncsu.csc316.dsa.list.List;
 import edu.ncsu.csc316.dsa.map.Map;
 import edu.ncsu.csc316.dsa.map.Map.Entry;
@@ -35,7 +34,7 @@ public class CompressionManager {
 	public CompressionManager(String pathToInputFile) throws FileNotFoundException {
         DSAFactory.setMapType(DataStructure.SKIPLIST);
         DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
-        DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
+        DSAFactory.setComparisonSorterType(Algorithm.QUICKSORT);
         DSAFactory.setNonComparisonSorterType(Algorithm.RADIX_SORT);
        
         unprocessedMap = InputReader.readFile(pathToInputFile);

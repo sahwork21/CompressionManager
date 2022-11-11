@@ -23,6 +23,7 @@ public class CompressionManager {
 	/**The underlying map of raw text straight from a file*/
 	private Map<Integer, List<String>> unprocessedMap;
 	
+	
 	/**
 	 * Constructor for the CompressionManager.
 	 * Takes in a file path and creates a file of the unprocessed text.
@@ -32,7 +33,7 @@ public class CompressionManager {
 	 */
     
 	public CompressionManager(String pathToInputFile) throws FileNotFoundException {
-        DSAFactory.setMapType(DataStructure.SKIPLIST);
+        DSAFactory.setMapType(DataStructure.SEARCHTABLE);
         DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
         DSAFactory.setComparisonSorterType(Algorithm.QUICKSORT);
         DSAFactory.setNonComparisonSorterType(Algorithm.RADIX_SORT);

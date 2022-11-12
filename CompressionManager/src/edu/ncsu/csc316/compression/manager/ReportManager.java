@@ -33,7 +33,7 @@ public class ReportManager {
      */
     public ReportManager(String pathToInputFile) throws FileNotFoundException {
     	DSAFactory.setMapType(DataStructure.SEARCHTABLE);
-    	DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
+    	DSAFactory.setListType(DataStructure.SINGLYLINKEDLIST);
     	DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
     	DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
     	

@@ -85,13 +85,14 @@ public class CompressionManager {
     			//If the word is unique increase the order count and add the word as a new entry
     			String currentWord = it.next();
     			
-    			Integer mapVal = uniqueWords.get(currentWord);
+    			Integer mapVal = uniqueWords.put(currentWord, order);
     			if(mapVal == null) {
-    				uniqueWords.put(currentWord, order);
+    				
     				order++;
         			newLine.addLast(currentWord);
     			}
     			else {
+    				uniqueWords.put(currentWord, mapVal);
     				//Otherwise reset the value on the line
     				newLine.addLast(new StringBuilder("" + mapVal).toString());
     				//currentLine.set(i, new StringBuilder("" + mapVal).toString());

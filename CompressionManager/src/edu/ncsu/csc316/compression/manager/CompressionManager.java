@@ -7,6 +7,7 @@ import edu.ncsu.csc316.compression.dsa.Algorithm;
 import edu.ncsu.csc316.compression.dsa.DSAFactory;
 import edu.ncsu.csc316.compression.dsa.DataStructure;
 import edu.ncsu.csc316.compression.io.InputReader;
+import edu.ncsu.csc316.dsa.data.Identifiable;
 import edu.ncsu.csc316.dsa.list.List;
 import edu.ncsu.csc316.dsa.map.Map;
 import edu.ncsu.csc316.dsa.map.Map.Entry;
@@ -35,7 +36,7 @@ public class CompressionManager {
     
 	public CompressionManager(String pathToInputFile) throws FileNotFoundException {
         DSAFactory.setMapType(DataStructure.SKIPLIST);
-        DSAFactory.setListType(DataStructure.SINGLYLINKEDLIST);
+        DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
         DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
         DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
        
@@ -56,12 +57,14 @@ public class CompressionManager {
     	//Edge case needed when nothing was read
     	//Need to make sure the lists contain nothing
     	
-    	
+    	if(unprocessedMap.size() == 0) {
+    		return null;
+    	}
     	
     	//We need to sort the unprocessedMap first
-    	Entry<Integer, List<String>>[] unprocessedSortedMap = sort(unprocessedMap);
+    	EntryIdentifier<Integer, List<String>>[] unprocessedSortedMap = nonCompSort(unprocessedMap);
         //Go over each entry and each element in the List
-    	if(unprocessedMap.size() == 0 || unprocessedSortedMap[0].getValue().size() == 0) {
+    	if(unprocessedSortedMap[0].getEntry().getValue().size() == 0) {
     		return null;
     	}
     	
@@ -74,9 +77,9 @@ public class CompressionManager {
     	Map<String, Integer> uniqueWords = DSAFactory.getMap(null);
     	List<String>[] entries = new List[unprocessedSortedMap.length];
     	
-    	for(Entry<Integer, List<String>> e : unprocessedSortedMap) {
+    	for(EntryIdentifier<Integer, List<String>> e : unprocessedSortedMap) {
     		List<String> newLine = DSAFactory.getIndexedList();
-    		List<String> currentLine = e.getValue();
+    		List<String> currentLine = e.getEntry().getValue();
     		Iterator<String> it = currentLine.iterator();
     		while(it.hasNext()) {
     			//If the word is unique increase the order count and add the word as a new entry
@@ -131,10 +134,12 @@ public class CompressionManager {
 	public Map<Integer, List<String>> getDecompressed() {
     	//Edge case needed when nothing was read
     	
-    	
+    	if(unprocessedMap.size() == 0 ) {
+    		return null;
+    	}
     	//We need to sort the unprocessedMap first
-    	Entry<Integer, List<String>>[] unprocessedSortedMap = sort(unprocessedMap);
-    	if(unprocessedMap.size() == 0 || unprocessedSortedMap[0].getValue().size() == 0) {
+    	EntryIdentifier<Integer, List<String>>[] unprocessedSortedMap = nonCompSort(unprocessedMap);
+    	if( unprocessedSortedMap[0].getEntry().getValue().size() == 0) {
     		return null;
     	}
     	
@@ -146,10 +151,10 @@ public class CompressionManager {
     	
     	//These entries are the processed lines
     	List<String>[] entries = new List[unprocessedSortedMap.length];
-    	for(Entry<Integer, List<String>> e : unprocessedSortedMap) {
+    	for(EntryIdentifier<Integer, List<String>> e : unprocessedSortedMap) {
     		
     		List<String> newLine = DSAFactory.getIndexedList();
-    		List<String> currentLine = e.getValue();
+    		List<String> currentLine = e.getEntry().getValue();
     		Iterator<String> it = currentLine.iterator();
     		while(it.hasNext()) {
     			//If the String is an Integer then replace it with its associated String
@@ -187,71 +192,71 @@ public class CompressionManager {
         return retMap;
     }
     
-    /**
-     * Private helper that does sorting
-     * @param map the map to be sorted
-     * @return the map now in sorted order even if it is supposed to be unordered
-     */
-    @SuppressWarnings("unchecked")
-	private Entry<Integer, List<String>>[] sort(Map<Integer, List<String>> map) {
-    	//We may need to sort the Map since it could come in reverse order if it doesn't self sort
-        Entry<Integer, List<String>>[] entries = new Entry[map.size()];
-        Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
-        int i = 0;
-        for(Entry<Integer, List<String>> e : map.entrySet()) {
-    		entries[i] = e;
-    		i++;
-    	}
-        
-        sorter.sort(entries);
-        
-        return entries;
-    }
-    
+//    /**
+//     * Private helper that does sorting
+//     * @param map the map to be sorted
+//     * @return the map now in sorted order even if it is supposed to be unordered
+//     */
 //    @SuppressWarnings("unchecked")
-// 	private EntryIdentifier<Integer, List<String>>[] nonCompSort(Map<Integer, List<String>> map){
-//     	EntryIdentifier<Integer, List<String>>[] entries = new EntryIdentifier[map.size()];
-//     	Sorter<Identifiable> sorter = DSAFactory.getNonComparisonSorter();
-//     	
-//     	int i = 0;
-//         for(Entry<Integer, List<String>> e : map.entrySet()) {
-//     		entries[i] = new EntryIdentifier<Integer, List<String>>(e);
-//     		i++;
-//     		
-//     	}
-//         
-//         sorter.sort(entries);
-//         
-//         return entries;
-//     	
-//     }
-//     
-//     private class EntryIdentifier<K, V> implements Identifiable {
-//
-//     	/**The underlying private entry that this class wraps*/
-//     	private Entry<K, V> entry;
-//     	
-//     	public EntryIdentifier(Entry<K, V> entry) {
-//     		this.entry = entry;
-//     	}
-//     	
-//     	public Entry<K, V> getEntry() {
-// 			return entry;
-// 		}
-//     	
-//     	/**
-//     	 * Should be fine since this is only ever called when doing counting sort
-//     	 */
-// 		@Override
-// 		public int getId() {
-// 			// TODO Auto-generated method stub
-// 			return (int)entry.getKey();
-// 		}
-// 		
-// 		
-// 		
-// 		
-//     	
-//     }
+//	private Entry<Integer, List<String>>[] sort(Map<Integer, List<String>> map) {
+//    	//We may need to sort the Map since it could come in reverse order if it doesn't self sort
+//        Entry<Integer, List<String>>[] entries = new Entry[map.size()];
+//        Sorter<Entry<Integer, List<String>>> sorter = DSAFactory.getComparisonSorter(null);
+//        int i = 0;
+//        for(Entry<Integer, List<String>> e : map.entrySet()) {
+//    		entries[i] = e;
+//    		i++;
+//    	}
+//        
+//        sorter.sort(entries);
+//        
+//        return entries;
+//    }
+    
+    @SuppressWarnings("unchecked")
+ 	private EntryIdentifier<Integer, List<String>>[] nonCompSort(Map<Integer, List<String>> map){
+     	EntryIdentifier<Integer, List<String>>[] entries = new EntryIdentifier[map.size()];
+     	Sorter<Identifiable> sorter = DSAFactory.getNonComparisonSorter();
+     	
+     	int i = 0;
+         for(Entry<Integer, List<String>> e : map.entrySet()) {
+     		entries[i] = new EntryIdentifier<Integer, List<String>>(e);
+     		i++;
+     		
+     	}
+         
+         sorter.sort(entries);
+         
+         return entries;
+     	
+     }
+     
+     private class EntryIdentifier<K, V> implements Identifiable {
+
+     	/**The underlying private entry that this class wraps*/
+     	private Entry<K, V> entry;
+     	
+     	public EntryIdentifier(Entry<K, V> entry) {
+     		this.entry = entry;
+     	}
+     	
+     	public Entry<K, V> getEntry() {
+ 			return entry;
+ 		}
+     	
+     	/**
+     	 * Should be fine since this is only ever called when doing counting sort
+     	 */
+ 		@Override
+ 		public int getId() {
+ 			// TODO Auto-generated method stub
+ 			return (int)entry.getKey();
+ 		}
+ 		
+ 		
+ 		
+ 		
+     	
+     }
    
 }

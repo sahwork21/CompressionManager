@@ -1,13 +1,13 @@
 package edu.ncsu.csc316.compression.manager;
 
 import java.io.FileNotFoundException;
+
 import java.util.Iterator;
 
 import edu.ncsu.csc316.compression.dsa.Algorithm;
 import edu.ncsu.csc316.compression.dsa.DSAFactory;
 import edu.ncsu.csc316.compression.dsa.DataStructure;
 import edu.ncsu.csc316.compression.io.InputReader;
-import edu.ncsu.csc316.dsa.data.Identifiable;
 import edu.ncsu.csc316.dsa.list.List;
 import edu.ncsu.csc316.dsa.map.Map;
 import edu.ncsu.csc316.dsa.map.Map.Entry;
@@ -64,7 +64,7 @@ public class CompressionManager {
     	
     	
     	//We need to sort the unprocessedMap first
-    	EntryIdentifier<Integer, List<String>>[] unprocessedSortedMap = nonCompSort(unprocessedMap);
+    	Entry<Integer, List<String>>[] unprocessedSortedMap = sort(unprocessedMap);
         //Go over each entry and each element in the List
     	int order = 1;
     	int lineNum = 1;
@@ -72,12 +72,11 @@ public class CompressionManager {
     	//Instead it will just set map values in the unprocessedSortedMap
     	Map<String, Integer> uniqueWords = DSAFactory.getMap(null);
     	
-    	
     	//Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
-    	for(EntryIdentifier<Integer, List<String>> e : unprocessedSortedMap) {
+    	for(Entry<Integer, List<String>> e : unprocessedSortedMap) {
     		List<String> newLine = DSAFactory.getIndexedList();
-    		List<String> currentLine = e.getEntry().getValue();
+    		List<String> currentLine = e.getValue();
     		
     		
     		
@@ -138,7 +137,7 @@ public class CompressionManager {
     	
     	
     	//We need to sort the unprocessedMap first
-    	EntryIdentifier<Integer, List<String>>[] unprocessedSortedMap = nonCompSort(unprocessedMap);
+    	Entry<Integer, List<String>>[] unprocessedSortedMap = sort(unprocessedMap);
         //Go over each entry in the unprocessedMap
     	int order = 1;
     	int lineNum = 1;
@@ -147,10 +146,10 @@ public class CompressionManager {
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
     	//These entries are the processed lines
     	//Entry<Integer, List<String>>[] entries = new Entry[unprocessedSortedMap.size()];
-    	for(EntryIdentifier<Integer, List<String>> e : unprocessedSortedMap) {
+    	for(Entry<Integer, List<String>> e : unprocessedSortedMap) {
     		
     		List<String> newLine = DSAFactory.getIndexedList();
-    		List<String> currentLine = e.getEntry().getValue();
+    		List<String> currentLine = e.getValue();
     		Iterator<String> it = currentLine.iterator();
     		while(it.hasNext()) {
     			//If the String is an Integer then replace it with its associated String
@@ -218,53 +217,53 @@ public class CompressionManager {
         return entries;
     }
     
-  
-    
-    
-    @SuppressWarnings("unchecked")
-	private EntryIdentifier<Integer, List<String>>[] nonCompSort(Map<Integer, List<String>> map){
-    	EntryIdentifier<Integer, List<String>>[] entries = new EntryIdentifier[map.size()];
-    	Sorter<Identifiable> sorter = DSAFactory.getNonComparisonSorter();
-    	
-    	int i = 0;
-        for(Entry<Integer, List<String>> e : map.entrySet()) {
-    		entries[i] = new EntryIdentifier<Integer, List<String>>(e);
-    		i++;
-    		
-    	}
-        
-        sorter.sort(entries);
-        
-        return entries;
-    	
-    }
-    
-    private class EntryIdentifier<K, V> implements Identifiable {
-
-    	/**The underlying private entry that this class wraps*/
-    	private Entry<K, V> entry;
-    	
-    	public EntryIdentifier(Entry<K, V> entry) {
-    		this.entry = entry;
-    	}
-    	
-    	public Entry<K, V> getEntry() {
-			return entry;
-		}
-    	
-    	/**
-    	 * Should be fine since this is only ever called when doing counting sort
-    	 */
-		@Override
-		public int getId() {
-			// TODO Auto-generated method stub
-			return (int)entry.getKey();
-		}
-		
-		
-		
-		
-    	
-    }
-   
 }
+    
+    
+//    @SuppressWarnings("unchecked")
+//	private EntryIdentifier<Integer, List<String>>[] nonCompSort(Map<Integer, List<String>> map){
+//    	EntryIdentifier<Integer, List<String>>[] entries = new EntryIdentifier[map.size()];
+//    	Sorter<Identifiable> sorter = DSAFactory.getNonComparisonSorter();
+//    	
+//    	int i = 0;
+//        for(Entry<Integer, List<String>> e : map.entrySet()) {
+//    		entries[i] = new EntryIdentifier<Integer, List<String>>(e);
+//    		i++;
+//    		
+//    	}
+//        
+//        sorter.sort(entries);
+//        
+//        return entries;
+//    	
+//    }
+//    
+//    private class EntryIdentifier<K, V> implements Identifiable {
+//
+//    	/**The underlying private entry that this class wraps*/
+//    	private Entry<K, V> entry;
+//    	
+//    	public EntryIdentifier(Entry<K, V> entry) {
+//    		this.entry = entry;
+//    	}
+//    	
+//    	public Entry<K, V> getEntry() {
+//			return entry;
+//		}
+//    	
+//    	/**
+//    	 * Should be fine since this is only ever called when doing counting sort
+//    	 */
+//		@Override
+//		public int getId() {
+//			// TODO Auto-generated method stub
+//			return (int)entry.getKey();
+//		}
+//		
+//		
+//		
+//		
+//    	
+//    }
+//   
+//}

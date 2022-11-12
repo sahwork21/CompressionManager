@@ -149,40 +149,40 @@ public class ReportManagerTest {
 		assertEquals("The provided input file has no text to decompress.", rm.decompress());
 	}
 	
-//	/**
-//	 * Test on a large file
-//	 * Don't run unless you want to wait a while
-//	 */
-//	@Test
-//	public void testLargeCompress() {
-//		ReportManager rm = null;
-//		try {
-//			rm = new ReportManager("input/large.txt");
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		assertNotNull(rm.compress());
-//	}
-//	
-//	/**
-//	 * Test on a large file
-//	 * Don't run unless you want to wait a while
-//	 */
-//	@Test
-//	public void testLargeDecompress() {
-//		ReportManager rm = null;
-//		try {
-//			rm = new ReportManager("input/large.txt");
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		
-//		assertNotNull(rm.decompress());
-//	}
-//
+	/**
+	 * Test on a large file
+	 * Don't run unless you want to wait a while
+	 */
+	@Test
+	public void testLargeCompress() {
+		ReportManager rm = null;
+		try {
+			rm = new ReportManager("input/large.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertNotNull(rm.compress());
+	}
+	
+	/**
+	 * Test on a large file
+	 * Don't run unless you want to wait a while
+	 */
+	@Test
+	public void testLargeDecompress() {
+		ReportManager rm = null;
+		try {
+			rm = new ReportManager("input/large.txt");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		assertNotNull(rm.decompress());
+	}
+
 }
 

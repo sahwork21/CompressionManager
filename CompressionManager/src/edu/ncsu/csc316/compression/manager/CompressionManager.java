@@ -36,7 +36,7 @@ public class CompressionManager {
     
 	public CompressionManager(String pathToInputFile) throws FileNotFoundException {
         DSAFactory.setMapType(DataStructure.SKIPLIST);
-        DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
+        DSAFactory.setListType(DataStructure.SINGLYLINKEDLIST);
         DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
         DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
        

@@ -12,7 +12,6 @@ import edu.ncsu.csc316.dsa.list.List;
 import edu.ncsu.csc316.dsa.map.Map;
 import edu.ncsu.csc316.dsa.map.Map.Entry;
 import edu.ncsu.csc316.dsa.sorter.Sorter;
-import edu.ncsu.csc316.dsa.stack.Stack;
 
 /**
  * CompressionManager is the part of the model that takes a Map from the InputReader and processes it.
@@ -53,7 +52,8 @@ public class CompressionManager {
      * Maps are returned with Integer as the line number and List of Strings is the line.
      * @return a Map of compressed text that has number replacements for repeat words.
      */
-    public Map<Integer, List<String>> getCompressed() {
+    @SuppressWarnings("unchecked")
+	public Map<Integer, List<String>> getCompressed() {
     	//Edge case needed when nothing was read
     	//Need to make sure the lists contain nothing
     	
@@ -75,12 +75,12 @@ public class CompressionManager {
     	//Algorithm will not use another Map.
     	//Instead it will just set map values in the unprocessedSortedMap
     	Map<String, Integer> uniqueWords = DSAFactory.getMap(null);
-    	//List<String>[] entries = new List[unprocessedSortedMap.length];
-    	Stack<List<String>> entries = DSAFactory.getStack();
+    	List<String>[] entries = new List[unprocessedSortedMap.length];
+    	
     	for(EntryIdentifier<Integer, List<String>> e : unprocessedSortedMap) {
     		List<String> newLine = DSAFactory.getIndexedList();
-    		List<String> currentLine = e.getEntry().getValue();
-    		Iterator<String> it = currentLine.iterator();
+    		//List<String> currentLine = e.getEntry().getValue();
+    		Iterator<String> it = e.getEntry().getValue().iterator();
     		while(it.hasNext()) {
     			//If the word is unique increase the order count and add the word as a new entry
     			String currentWord = it.next();
@@ -102,7 +102,7 @@ public class CompressionManager {
     		}
     		
     		//Now add the compressed Line to the array to later get put into a Map
-    		entries.push(newLine);
+    		entries[lineNum - 1] = newLine;
     		//Replace the Map entry value 
     		
     		lineNum++;
@@ -115,10 +115,8 @@ public class CompressionManager {
 //    	sorter.sort(entries);
     	//Now add back to front to help the heuristic maps that add at the front
     	Map<Integer, List<String>> retMap = DSAFactory.getMap(null);
-    	
-        while(!entries.isEmpty()) {
-        	retMap.put(lineNum--, entries.pop());
-        	
+        for(int j = entries.length - 1; j >= 0; j--) {
+        	retMap.put(j + 1, entries[j]);
         }
         
         //Change
@@ -156,8 +154,8 @@ public class CompressionManager {
     	for(EntryIdentifier<Integer, List<String>> e : unprocessedSortedMap) {
     		
     		List<String> newLine = DSAFactory.getIndexedList();
-    		List<String> currentLine = e.getEntry().getValue();
-    		Iterator<String> it = currentLine.iterator();
+    		//List<String> currentLine = e.getEntry().getValue();
+    		Iterator<String> it = e.getEntry().getValue().iterator();
     		while(it.hasNext()) {
     			//If the String is an Integer then replace it with its associated String
     			String currentWord = it.next();

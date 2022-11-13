@@ -159,11 +159,11 @@ public class ReportManagerTest {
 		try {
 			rm = new ReportManager("input/large.txt");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			fail();
 			e.printStackTrace();
 		}
 		
-		//assertNotNull(rm.compress());
+		assertNotNull(rm.compress());
 	}
 	
 	/**
@@ -176,7 +176,7 @@ public class ReportManagerTest {
 		try {
 			rm = new ReportManager("input/large.txt");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			fail();
 			e.printStackTrace();
 		}
 		

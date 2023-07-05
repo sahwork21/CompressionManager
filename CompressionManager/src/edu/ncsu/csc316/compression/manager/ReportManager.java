@@ -32,7 +32,7 @@ public class ReportManager {
      * @throws FileNotFoundException if the specified file path doesn't exist
      */
     public ReportManager(String pathToInputFile) throws FileNotFoundException {
-    	DSAFactory.setMapType(DataStructure.SEARCHTABLE);
+    	DSAFactory.setMapType(DataStructure.LINEARPROBINGHASHMAP);
     	DSAFactory.setListType(DataStructure.ARRAYBASEDLIST);
     	DSAFactory.setComparisonSorterType(Algorithm.MERGESORT);
     	DSAFactory.setNonComparisonSorterType(Algorithm.COUNTING_SORT);
@@ -57,9 +57,9 @@ public class ReportManager {
         StringBuilder buffer = new StringBuilder();
         buffer.append("Compressed Output {\n");
         int line = 1;
-        for(List<String> l : compressed.values()) {
+        for(int i = 1; i <= compressed.size(); i++) {
         	//Now print out each line with an indent       	
-        	Iterator<String> it = l.iterator();
+        	Iterator<String> it = compressed.get(i).iterator();
         	buffer.append(INDENT + "Line " + line + ":" + it.next());
         	
         	while(it.hasNext()) {
@@ -96,10 +96,10 @@ public class ReportManager {
         StringBuilder buffer = new StringBuilder("Decompressed Output {\n");
        
         int line = 1;
-        for(List<String> l : decompressed.values()) {
+        for(int i = 1; i <= decompressed.size(); i++) {
         	//Now print out each line with an indent
 
-        	Iterator<String> it = l.iterator();
+        	Iterator<String> it = decompressed.get(i).iterator();
         	buffer.append(INDENT + "Line " + line + ":" + it.next());
        
         	

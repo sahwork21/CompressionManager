@@ -42,52 +42,71 @@ public class CompressionManagerUI {
 		
 		/* Run the compress method */
 		//System.out.println(reportManager.compress());
-		reportManager.compress();
-		/* Stop the clock*/
-		long end = System.currentTimeMillis();
-		System.out.println(end - start);
+		
+		
+		/*
+		 * 
+		 * THIS IS THE TESTING PART OF THE PROJECT
+		 * IF YOU WANT TO SEE HOW FAST THIS GOES UNCOMMENT THIS PART
+		 * 
+		 * 
+		 */
+//		reportManager.compress();
+//		/* Stop the clock*/
+//		long end = System.currentTimeMillis();
+//		System.out.println(end - start);
+//		System.out.print(" Milliseconds elapsed from compression to decompression");
 		
 		
 		
 		//Ask to decompress or compress
 		
-//		String command = "";
-//		if(reportManager != null) {
-//			System.out.println("Compress or Decompress the file? Type \"quit\" to quit.");
-//			command = input.nextLine();
-//		}
-//		//Repeat until told to quit
-//		while(!"quit".equals(command.toLowerCase()) && reportManager != null) {
-//			//compress
-//			if("compress".equals(command.toLowerCase())) {
-//				//long start = System.currentTimeMillis();
-//				System.out.println(reportManager.compress());
-//				//long end = System.currentTimeMillis();
-//				//System.out.println(end - start);
-//				//Used in part 3 for testing runt times
-//				
-//				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
-//				
-//				command = input.nextLine();
-//			}
-//			
-//			//decompress
-//			else if("decompress".equals(command.toLowerCase())) {
-//				System.out.println(reportManager.decompress());
-//				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
-//				command = input.nextLine();
-//			}
-//			
-//			//Tell the user what needs to be input if they didn't do it right
-//			else {
-//				System.out.println("usage: \"compress\" or \"decompress\"");
-//				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
-//				command = input.nextLine();
-//			}
-//			
-//		}
-//		
-//		
+		/*
+		 * 
+		 * 
+		 * UNCOMMENT THE LINES BELOW TO SEE THE OUTPUT IF YOU FEEL LIKE IT
+		 * 
+		 * 
+		 * 
+		 */
+		
+		String command = "";
+		if(reportManager != null) {
+			System.out.println("Compress or Decompress the file? Type \"quit\" to quit.");
+			command = input.nextLine();
+		}
+		//Repeat until told to quit
+		while(!"quit".equals(command.toLowerCase()) && reportManager != null) {
+			//compress
+			if("compress".equals(command.toLowerCase())) {
+				//long start = System.currentTimeMillis();
+				System.out.println(reportManager.compress());
+				//long end = System.currentTimeMillis();
+				//System.out.println(end - start);
+				//Used in part 3 for testing runt times
+				
+				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
+				
+				command = input.nextLine();
+			}
+			
+			//decompress
+			else if("decompress".equals(command.toLowerCase())) {
+				System.out.println(reportManager.decompress());
+				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
+				command = input.nextLine();
+			}
+			
+			//Tell the user what needs to be input if they didn't do it right
+			else {
+				System.out.println("usage: \"compress\" or \"decompress\"");
+				System.out.println("\nCompress or Decompress the file? Type \"quit\" to quit.");
+				command = input.nextLine();
+			}
+			
+		}
+		
+		
 		input.close();
 		
 	}
